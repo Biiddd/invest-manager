@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.List;
 
 public class CompanySimulation {
 
@@ -7,16 +8,17 @@ public class CompanySimulation {
         Company company = new Company("Company X", 100, 0.73);
         // 创建一个投资者
         Investor investor = new Investor();
+        investor.updateWallet(10000);
 
         // 加入投资者的感兴趣公司列表
         investor.addInterest(company, new BasicStrategy(1500, 3, 8));
 
         // 模拟更新股价和投资者的行为
-        simulateCompanyTrend(company, 50, 5);
+        simulateCompanyTrend(company, investor, 50, 5);
     }
 
     // 模拟公司股价更新和投资者行为
-    public static void simulateCompanyTrend(Company company, int updates, int significance ) {
+    public static void simulateCompanyTrend(Company company, Investor investor, int updates, int significance) {
         DecimalFormat df = new DecimalFormat("#.##"); // 控制小数点精度为2
 
         System.out.println("Initial Share Price: " + df.format(company.getCurrentSharePrice()));
@@ -27,6 +29,11 @@ public class CompanySimulation {
             String trend = company.getTrend(5, company.getSharePriceHistory(), 8);
             System.out.println("Share Price after update " + (i + 1) + ": " + df.format(company.getCurrentSharePrice()) + ", Trend: " + trend);
 
+            // 调用投资者的投资行为
+            investor.updateInvestment();
+
+            // 打印投资者的钱包余额
+            System.out.println("Investor's Wallet Balance: " + df.format(investor.getWallet()));
         }
     }
 }
