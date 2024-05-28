@@ -60,10 +60,10 @@ public class Company {
         int countSignificantIncreases = 0;
         int countSignificantDecreases = 0;
         int countInsignificant = 0;
-        double threshold = significance/ 100.0;
+        double threshold = significance / 100.0;
         System.out.println("-------------------------------------------------------------------");
 //        System.out.println("历史价格 " + priceHistory);
-        if(priceHistory.size() < movementNumber + 1){
+        if (priceHistory.size() < movementNumber + 1) {
             return "uncertain";
         }
         double overallMovement = priceHistory.getLast() - priceHistory.get(priceHistory.size() - movementNumber - 1);
@@ -103,7 +103,7 @@ public class Company {
         } else if (countSignificantDecreases > movementNumber / 2 && overallMovementRatio >= threshold) {
             trendHistory.add("decreasing");
             return "decreasing";
-        } else if (countInsignificant > movementNumber /2 && overallMovementRatio <= threshold) {
+        } else if (countInsignificant > movementNumber / 2 && overallMovementRatio <= threshold) {
             trendHistory.add("stable");
             return "stable";
         } else {

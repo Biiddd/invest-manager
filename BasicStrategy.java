@@ -18,7 +18,7 @@ public class BasicStrategy implements Strategy {
         List<String> trendHistory = company.getTrendHistory();
         String currentTrend = "uncertain";
         String previousTrend = "uncertain";
-        if(trendHistory.size() > 1){
+        if (trendHistory.size() > 1) {
             currentTrend = trendHistory.getLast();
             previousTrend = trendHistory.get(trendHistory.size() - 2);
         }
@@ -29,12 +29,12 @@ public class BasicStrategy implements Strategy {
         // 根据趋势决定买入或卖出
         if (currentTrend.equals("uncertain")) {
             // 买入股票
-            if(previousTrend.equals("decreasing")){
+            if (previousTrend.equals("decreasing")) {
                 return buyShares(company);
-            } else if (previousTrend.equals("increasing") ) {
-            // 卖出股票
+            } else if (previousTrend.equals("increasing")) {
+                // 卖出股票
                 System.out.println("Ready to sell");
-                if (company.getSharesOwned()==0) {
+                if (company.getSharesOwned() == 0) {
                     System.out.println("No shares owned");
                 } else {
                     return sellShares(company);
@@ -69,7 +69,7 @@ public class BasicStrategy implements Strategy {
         double earnings = sharesToSell * currentPrice;
         company.sellShares(sharesToSell);
         System.out.println("Current price: " + currentPrice);
-        System.out.println("Selling " + "shares: " +sharesToSell + ", Earnings: " + earnings);
+        System.out.println("Selling " + "shares: " + sharesToSell + ", Earnings: " + earnings);
         System.out.println("After action shares owned: " + company.getSharesOwned());
         return earnings;
     }
