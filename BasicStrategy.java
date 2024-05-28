@@ -1,4 +1,3 @@
-import java.util.List;
 import java.util.Random;
 
 public class BasicStrategy implements Strategy {
@@ -49,7 +48,7 @@ public class BasicStrategy implements Strategy {
         double currentPrice = company.getCurrentSharePrice();
         Random random = new Random();
         int sharesToBuy = random.nextInt(maxTransaction + 1);
-        double cost = sharesToBuy * currentPrice;
+        double cost = (-1)*sharesToBuy * currentPrice;
         company.buyShares(sharesToBuy);
         System.out.println("Current price: " + currentPrice);
         System.out.println("Buying " + "shares: " + sharesToBuy + ", Cost: " + cost);
@@ -60,7 +59,8 @@ public class BasicStrategy implements Strategy {
     // 计算卖出股票数量
     protected double sellShares(Company company) {
         double currentPrice = company.getCurrentSharePrice();
-        int sharesToSell = company.getSharesOwned();
+        Random random = new Random();
+        int sharesToSell = random.nextInt(company.getSharesOwned() + 1);
         double earnings = sharesToSell * currentPrice;
         company.sellShares(sharesToSell);
         System.out.println("Current price: " + currentPrice);

@@ -70,7 +70,6 @@ public class Company {
     }
 
     public String getTrend(int movementNumber, List<Double> priceHistory, int significance) {
-        DecimalFormat df = new DecimalFormat("#.###");
         int countSignificantIncreases = 0;
         int countSignificantDecreases = 0;
         int countInsignificant = 0;
