@@ -15,13 +15,8 @@ public class BasicStrategy implements Strategy {
     @Override
     public double invest(Company company) {
         // 计算公司股价趋势
-        List<String> trendHistory = company.getTrendHistory();
-        String currentTrend = "uncertain";
-        String previousTrend = "uncertain";
-        if (trendHistory.size() > 1) {
-            currentTrend = trendHistory.getLast();
-            previousTrend = trendHistory.get(trendHistory.size() - 2);
-        }
+        String currentTrend = company.getCurrentTrend();
+        String previousTrend = company.getPreviousTrend();
 
         System.out.println("Previous Trend: " + previousTrend);
         System.out.println("Current Trend: " + currentTrend);

@@ -31,11 +31,14 @@ public class CompanySimulation {
 
             // 调用投资者的投资行为
             investor.updateInvestment();
+            if (company.getSharesOwned() == 0 && company.getEverOwned()) {
+                investor.removeInterest(company);
+            }
 
             double profit = investor.getWallet() - initialWallet;
-
+            System.out.println("Profit: " + profit);
             // 打印投资者的钱包余额
-            System.out.println("Investor's Wallet Balance: " + investor.getWallet());
+            System.out.println("Current Wallet: " + investor.getWallet());
         }
     }
 }

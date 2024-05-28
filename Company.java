@@ -7,8 +7,10 @@ public class Company {
     private final String name; // 公司名称
     private final double stabilityCoefficient; // 稳定性系数
     private final List<Double> sharePriceHistory; // 股价历史记录
-    private final List<String> trendHistory; // 趋势历史记录
+    private String currentTrend; // 当前趋势
+    private String previousTrend; // 上一个趋势
     private int sharesOwned; // 拥有的股票数量
+    private final boolean everOwned;
 
     // 构造函数
     public Company(String name, double initialSharePrice, double stabilityCoefficient) {
@@ -16,8 +18,10 @@ public class Company {
         this.stabilityCoefficient = stabilityCoefficient;
         this.sharePriceHistory = new ArrayList<>();
         this.sharePriceHistory.add(initialSharePrice);
-        this.trendHistory = new ArrayList<>();
+        this.currentTrend = "uncertain";
+        this.previousTrend = "uncertain";
         this.sharesOwned = 0;
+        this.everOwned = false;
     }
 
     // 获取公司名称
@@ -40,9 +44,19 @@ public class Company {
         return sharePriceHistory;
     }
 
-    //获取历史趋势
-    public List<String> getTrendHistory() {
-        return trendHistory;
+    // get 'currentTrend'
+    public String getCurrentTrend() {
+        return currentTrend;
+    }
+
+    // get 'previousTrend'
+    public String getPreviousTrend() {
+        return previousTrend;
+    }
+
+    // get 'everOwned'
+    public boolean getEverOwned() {
+        return everOwned;
     }
 
     // 更新股价
@@ -62,13 +76,12 @@ public class Company {
         int countInsignificant = 0;
         double threshold = significance / 100.0;
         System.out.println("-------------------------------------------------------------------");
-//        System.out.println("历史价格 " + priceHistory);
+
         if (priceHistory.size() < movementNumber + 1) {
             return "uncertain";
         }
         double overallMovement = priceHistory.getLast() - priceHistory.get(priceHistory.size() - movementNumber - 1);
         double overallMovementRatio = Math.abs(overallMovement) / Math.abs(priceHistory.get(priceHistory.size() - movementNumber - 1));
-//        System.out.println("整体 " + df.format(overallMovement) + "  " + df.format(overallMovementRatio));
 
         // 计算趋势
         int startIndex = Math.max(1, priceHistory.size() - movementNumber);
@@ -84,30 +97,27 @@ public class Company {
             if (movementRatio >= significance / 100.0) {
                 if (movement > 0) {
                     countSignificantIncreases++;
-//                    System.out.println("增" + df.format(movement) + "  " + df.format(movementRatio));
                 } else if (movement < 0) {
                     countSignificantDecreases++;
-//                    System.out.println("降" + df.format(movement) + "  " + df.format(movementRatio));
                 }
             } else {
                 countInsignificant++;
-                //System.out.println("稳" + df.format(movement) + "  " + df.format(movementRatio));
             }
         }
-        //System.out.println("共增" + countSignificantIncreases + "共降" + countSignificantDecreases + "共稳" + countInsignificant);
 
         // 判断趋势
+        previousTrend = currentTrend;
         if (countSignificantIncreases > movementNumber / 2 && overallMovementRatio >= threshold) {
-            trendHistory.add("increasing");
+            currentTrend = "increasing";
             return "increasing";
         } else if (countSignificantDecreases > movementNumber / 2 && overallMovementRatio >= threshold) {
-            trendHistory.add("decreasing");
+            currentTrend = "decreasing";
             return "decreasing";
         } else if (countInsignificant > movementNumber / 2 && overallMovementRatio <= threshold) {
-            trendHistory.add("stable");
+            currentTrend = "stable";
             return "stable";
         } else {
-            trendHistory.add("uncertain");
+            currentTrend = "uncertain";
             return "uncertain";
         }
     }
