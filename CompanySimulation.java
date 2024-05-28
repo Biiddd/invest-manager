@@ -19,21 +19,23 @@ public class CompanySimulation {
 
     // 模拟公司股价更新和投资者行为
     public static void simulateCompanyTrend(Company company, Investor investor, int updates, int significance) {
-        DecimalFormat df = new DecimalFormat("#.##"); // 控制小数点精度为2
 
-        System.out.println("Initial Share Price: " + df.format(company.getCurrentSharePrice()));
+        double initialWallet = investor.getWallet();
+        System.out.println("Initial Share Price: " + company.getCurrentSharePrice());
 
         // 进行若干次股价更新
         for (int i = 0; i < updates; i++) {
             company.updateSharePrice();
             String trend = company.getTrend(5, company.getSharePriceHistory(), 8);
-            System.out.println("Share Price after update " + (i + 1) + ": " + df.format(company.getCurrentSharePrice()) + ", Trend: " + trend);
+            System.out.println("Share Price after update " + (i + 1) + ": " + company.getCurrentSharePrice());
 
             // 调用投资者的投资行为
             investor.updateInvestment();
 
+            double profit = investor.getWallet() - initialWallet;
+
             // 打印投资者的钱包余额
-            System.out.println("Investor's Wallet Balance: " + df.format(investor.getWallet()));
+            System.out.println("Investor's Wallet Balance: " + investor.getWallet());
         }
     }
 }

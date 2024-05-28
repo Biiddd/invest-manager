@@ -39,11 +39,7 @@ public class Investor {
             Company company = entry.getKey();
             Strategy strategy = entry.getValue();
 
-            // 更新公司的股价
-            company.updateSharePrice();
             updateWallet(strategy.invest(company));
-            double profit = getWallet() - 10000;
-            System.out.println("Profit: " + profit);
         }
     }
 

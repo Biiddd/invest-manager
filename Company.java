@@ -50,6 +50,8 @@ public class Company {
         double lastSharePrice = getCurrentSharePrice();
         double u = new Random().nextDouble() * 2 - 1; // 生成区间[-1, 1]内的随机数
         double newSharePrice = lastSharePrice * (1 + (1 - stabilityCoefficient) * u);
+        DecimalFormat df = new DecimalFormat("#.##");
+        newSharePrice = Double.parseDouble(df.format(newSharePrice));
         sharePriceHistory.add(newSharePrice);
     }
 

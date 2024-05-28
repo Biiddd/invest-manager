@@ -23,22 +23,28 @@ public class BasicStrategy implements Strategy {
             previousTrend = trendHistory.get(trendHistory.size() - 2);
         }
 
-        System.out.println("Current Trend: " + currentTrend);
         System.out.println("Previous Trend: " + previousTrend);
+        System.out.println("Current Trend: " + currentTrend);
+        System.out.println("Current shares owned: " + company.getSharesOwned());
         // 根据趋势决定买入或卖出
         if (currentTrend.equals("uncertain")) {
             // 买入股票
-            if(previousTrend.equals("increasing")){
+            if(previousTrend.equals("decreasing")){
                 return buyShares(company);
-            } else if (previousTrend.equals("decreasing")) {
+            } else if (previousTrend.equals("increasing") ) {
             // 卖出股票
-                return sellShares(company);
+                System.out.println("Ready to sell");
+                if (company.getSharesOwned()==0) {
+                    System.out.println("No shares owned");
+                } else {
+                    return sellShares(company);
+                }
             } else {
-            // 不进行投资或卖出
-            System.out.println("No action taken");
-            return 0;
+                System.out.println("No action taken");
+                return 0;
             }
         }
+        System.out.println("No action taken");
         return 0;
     }
 
@@ -49,8 +55,10 @@ public class BasicStrategy implements Strategy {
         Random random = new Random();
         int sharesToBuy = random.nextInt(maxTransaction + 1);
         double cost = sharesToBuy * currentPrice;
-        System.out.println("Buying: " + "shares" + sharesToBuy + ", Cost: " + cost);
         company.buyShares(sharesToBuy);
+        System.out.println("Current price: " + currentPrice);
+        System.out.println("Buying " + "shares: " + sharesToBuy + ", Cost: " + cost);
+        System.out.println("After action shares owned: " + company.getSharesOwned());
         return cost;
     }
 
@@ -60,7 +68,9 @@ public class BasicStrategy implements Strategy {
         int sharesToSell = company.getSharesOwned();
         double earnings = sharesToSell * currentPrice;
         company.sellShares(sharesToSell);
-        System.out.println("Selling " + " shares: " +sharesToSell + ", Earnings: " + earnings);
+        System.out.println("Current price: " + currentPrice);
+        System.out.println("Selling " + "shares: " +sharesToSell + ", Earnings: " + earnings);
+        System.out.println("After action shares owned: " + company.getSharesOwned());
         return earnings;
     }
 }
