@@ -2,12 +2,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Market {
-    // 静态成员，用于存储所有公司对象
+    // static object to store all companies
     private static final List<Company> companies = new ArrayList<>();
 
-    // 添加公司到市场
+    // add company to the market
     public static void add(Company company) {
-        // 检查公司是否已经在市场上
+        // check if company is already in the market
         if (!companies.contains(company)) {
             companies.add(company);
             System.out.println("Company " + company.getName() + " added to the market.");
@@ -16,7 +16,7 @@ public class Market {
         }
     }
 
-    // 从市场移除公司
+    // remove company from market
     public static void remove(Company company) {
         if (companies.contains(company)) {
             companies.remove(company);
@@ -26,7 +26,7 @@ public class Market {
         }
     }
 
-    // 获取市场上的所有公司
+    // get all companies in the market
     public static List<Company> getCompanies() {
         return companies;
     }

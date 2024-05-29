@@ -1,9 +1,9 @@
 import java.util.Random;
 
 public class BasicStrategy implements Strategy {
-    private final int maxTransaction; // 最大交易额
-    private final int movementNumber; // 移动数量
-    private final int significance;   // 显著性
+    private final int maxTransaction;
+    private final int movementNumber;
+    private final int significance;
 
     public BasicStrategy(int maxTransaction, int movementNumber, int significance) {
         this.maxTransaction = maxTransaction;
@@ -13,20 +13,21 @@ public class BasicStrategy implements Strategy {
 
     @Override
     public double invest(Company company) {
-        // 计算公司股价趋势
+
         String currentTrend = company.getCurrentTrend();
         String previousTrend = company.getPreviousTrend();
 
         System.out.println("Previous Trend: " + previousTrend);
         System.out.println("Current Trend: " + currentTrend);
         System.out.println("Current shares owned: " + company.getSharesOwned());
-        // 根据趋势决定买入或卖出
+
+        // buy or sell logic
         if (currentTrend.equals("uncertain")) {
-            // 买入股票
+            // buy
             if (previousTrend.equals("decreasing")) {
                 return buyShares(company);
             } else if (previousTrend.equals("increasing")) {
-                // 卖出股票
+                // sell
                 System.out.println("Ready to sell");
                 if (company.getSharesOwned() == 0) {
                     System.out.println("No shares owned");
@@ -43,7 +44,7 @@ public class BasicStrategy implements Strategy {
     }
 
 
-    // 计算买入股票数量
+    // buy logic
     protected double buyShares(Company company) {
         double currentPrice = company.getCurrentSharePrice();
         Random random = new Random();
@@ -56,7 +57,7 @@ public class BasicStrategy implements Strategy {
         return cost;
     }
 
-    // 计算卖出股票数量
+    // sell logic
     protected double sellShares(Company company) {
         double currentPrice = company.getCurrentSharePrice();
         Random random = new Random();

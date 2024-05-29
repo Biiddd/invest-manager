@@ -2,38 +2,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Investor {
-    // 每个投资者都有一个感兴趣的公司集合，以及对应的策略和当前拥有的股票数量
+    // every investor has a wallet and a map of companies they are interested in
     private final Map<Company, Strategy> interestMap;
     private double wallet;
 
-    // 默认情况下，投资者对象被创建时不包含任何感兴趣的公司
+    // by default, the wallet and interest map are empty
     public Investor() {
         this.interestMap = new HashMap<>();
         this.wallet = 0;
     }
 
-    // 投资者可以选择对其感兴趣的新公司，并指定相应的投资策略
+    // add company to interest map
     public void addInterest(Company company, Strategy strategy) {
         interestMap.put(company, strategy);
     }
 
-    // 投资者可以决定不再对某个公司感兴趣，并卖掉当前拥有的股票
+    // remove company from interest map
     public void removeInterest(Company company) {
         interestMap.remove(company);
     }
 
-    // 获取钱包余额
+    // get companies of interest
+    public Map<Company, Strategy> getCompaniesOfInterest() {
+        return interestMap;
+    }
+
+    // get wallet balance
     public double getWallet() {
         return wallet;
     }
 
-    // 更新钱包余额
+    // update wallet balance
     public void updateWallet(double amount) {
         wallet += amount;
     }
 
-
-    // 更新投资
+    // update investment
     public void updateInvestment() {
         for (Map.Entry<Company, Strategy> entry : interestMap.entrySet()) {
             Company company = entry.getKey();
@@ -41,10 +45,5 @@ public class Investor {
 
             updateWallet(strategy.invest(company));
         }
-    }
-
-    // 获取投资者感兴趣的公司列表
-    public Map<Company, Strategy> getCompaniesOfInterest() {
-        return interestMap;
     }
 }

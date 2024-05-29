@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Random;
 
 public class Company {
-    private final String name; // 公司名称
-    private final double stabilityCoefficient; // 稳定性系数
-    private final List<Double> sharePriceHistory; // 股价历史记录
-    private String currentTrend; // 当前趋势
-    private String previousTrend; // 上一个趋势
-    private int sharesOwned; // 拥有的股票数量
+    private final String name; // company name
+    private final double stabilityCoefficient;
+    private final List<Double> sharePriceHistory; // share price history
+    private String currentTrend;
+    private String previousTrend;
+    private int sharesOwned; // own shares
     private final boolean everOwned;
 
-    // 构造函数
+    // constructor
     public Company(String name, double initialSharePrice, double stabilityCoefficient) {
         this.name = name;
         this.stabilityCoefficient = stabilityCoefficient;
@@ -24,22 +24,22 @@ public class Company {
         this.everOwned = false;
     }
 
-    // 获取公司名称
+    // get company name
     public String getName() {
         return name;
     }
 
-    // 获取初始股价
+    // get 'initialSharePrice'
     public double getInitialSharePrice() {
         return sharePriceHistory.getFirst();
     }
 
-    // 获取当前股价
+    // get 'currentSharePrice'
     public double getCurrentSharePrice() {
         return sharePriceHistory.getLast();
     }
 
-    // 获取股价历史记录
+    // get 'sharePriceHistory'
     public List<Double> getSharePriceHistory() {
         return sharePriceHistory;
     }
@@ -59,16 +59,17 @@ public class Company {
         return everOwned;
     }
 
-    // 更新股价
+    // update share price
     public void updateSharePrice() {
         double lastSharePrice = getCurrentSharePrice();
-        double u = new Random().nextDouble() * 2 - 1; // 生成区间[-1, 1]内的随机数
+        double u = new Random().nextDouble() * 2 - 1; // random number between -1 and 1
         double newSharePrice = lastSharePrice * (1 + (1 - stabilityCoefficient) * u);
         DecimalFormat df = new DecimalFormat("#.##");
         newSharePrice = Double.parseDouble(df.format(newSharePrice));
         sharePriceHistory.add(newSharePrice);
     }
 
+    // don't use void because I need a return to end the function
     public String getTrend(int movementNumber, List<Double> priceHistory, int significance) {
         int countSignificantIncreases = 0;
         int countSignificantDecreases = 0;
@@ -82,16 +83,19 @@ public class Company {
         double overallMovement = priceHistory.getLast() - priceHistory.get(priceHistory.size() - movementNumber - 1);
         double overallMovementRatio = Math.abs(overallMovement) / Math.abs(priceHistory.get(priceHistory.size() - movementNumber - 1));
 
-        // 计算趋势
+        // set the first movement index
         int startIndex = Math.max(1, priceHistory.size() - movementNumber);
 
         for (int i = priceHistory.size() - 1; i >= startIndex; i--) {
+            // movement = s2 - s1
             double movement = priceHistory.get(i) - priceHistory.get(i - 1);
+
+            // movement ratio =  (s2-s1)/s1
             double movementRatio;
+            // prevent division by zero
             if (priceHistory.get(i - 1) == 0) {
                 return "uncertain";
             }
-            // ratio (s2-s1)/s1
             movementRatio = Math.abs(movement) / Math.abs(priceHistory.get(i - 1));
             if (movementRatio >= significance / 100.0) {
                 if (movement > 0) {
@@ -104,7 +108,7 @@ public class Company {
             }
         }
 
-        // 判断趋势
+        // update the trend
         previousTrend = currentTrend;
         if (countSignificantIncreases > movementNumber / 2 && overallMovementRatio >= threshold) {
             currentTrend = "increasing";
@@ -121,18 +125,17 @@ public class Company {
         }
     }
 
-
-    // 获取当前拥有的股票数量
+    // get shares owned
     public int getSharesOwned() {
         return sharesOwned;
     }
 
-    // 购买股票
+    // buy shares
     public void buyShares(int amount) {
         sharesOwned += amount;
     }
 
-    // 出售股票
+    // sell shares
     public void sellShares(int amount) {
         sharesOwned -= amount;
     }
