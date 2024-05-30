@@ -23,46 +23,60 @@ public class Controller {
         Market.remove(company_c);
 
         // get all companies in the market
-        System.out.println(Market.getCompanies());
+        System.out.println("----------");
+        System.out.println("Companies in the market:");
+          for (Company company : Market.getCompanies()) {
+            System.out.println(company.getName());
+          }
+        System.out.println("----------");
 
         // create an investor
         Investor investor = new Investor();
 
         // initialize wallet
-        investor.updateWallet(10000);
+        double initialWallet = 10000;
+        investor.updateWallet(initialWallet);
 
         // create a strategy
         BasicStrategy strategy = new BasicStrategy(1500, 3, 8);
 
         // manually add interest in the company
         investor.addInterest(company_x, strategy);
+        investor.addInterest(company_a, strategy);
+        System.out.println("I interest in " + investor.getCompaniesOfInterest() + " now");
+        System.out.println("--------------------------------------------------------------");
+
+        // remove interest in the company
+        investor.removeInterest(company_a);
 
         // get companies of interest
-        System.out.println("I interest in " + investor.getCompaniesOfInterest() + " now");
+        System.out.println("After remove CompanyA, I interest in " + investor.getCompaniesOfInterest() + " now");
+        System.out.println("--------------------------------------------------------------");
 
-        System.out.println("Initial Share Price: " + company_x.getCurrentSharePrice());
+        System.out.println("Initial Share Price: " + company_x.getCurrentSharePrice() + "$");
 
-        // update 200 rounds
-        int updates = 200;
+        // update 50 rounds
+        int updates = 50;
         for (int i = 0; i < updates; i++) {
             company_x.updateSharePrice();
             company_x.updateTrend(strategy.getMovementNumber(), company_x.getSharePriceHistory(), strategy.getSignificance());
-            System.out.println("Share Price after update " + (i + 1) + ": " + company_x.getCurrentSharePrice());
+            System.out.println("Update Round " + (i + 1));
+            System.out.println("Current Share Price: " + company_x.getCurrentSharePrice() + "$");
 
             // update investment, buy or sell
             investor.updateInvestment();
-            if (company_x.getSharesOwned() == 0 && company_x.getEverOwned()) {
-                investor.removeInterest(company_x);
-            }
 
-            System.out.println("Current Wallet: " + investor.getWallet());
+            System.out.println("Current Wallet: " + investor.getWallet() + "$");
         }
 
         // get initial and final share price
-        System.out.println("-------------------------------------------------------------------");
-        System.out.println("Initial Share Price: " + company_x.getInitialSharePrice());
-        System.out.println("Final Share Price: " + company_x.getCurrentSharePrice());
-        System.out.println("-------------------------------------------------------------------");
+        System.out.println("-------------------End of the simulation----------------------");
+        System.out.println("Initial Share Price: " + company_x.getInitialSharePrice() + "$");
+        System.out.println("Final Share Price: " + company_x.getCurrentSharePrice() + "$");
+        System.out.println("Final Wallet: " + investor.getWallet() + "$");
+        System.out.println("Final Profit: " + (investor.getWallet() - initialWallet) + "$");
+        System.out.println("Final Shares Owned: " + company_x.getSharesOwned());
+        System.out.println("--------------------------------------------------------------");
 
     }
 }

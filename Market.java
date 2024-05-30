@@ -11,8 +11,10 @@ public class Market {
         if (!companies.contains(company)) {
             companies.add(company);
             System.out.println("Company " + company.getName() + " added to the market.");
+            System.out.println("---------------------------------------");
         } else {
             System.out.println("Company " + company.getName() + " is already on the market.");
+            System.out.println("--------------------------------------------");
         }
     }
 
@@ -21,8 +23,10 @@ public class Market {
         if (companies.contains(company)) {
             companies.remove(company);
             System.out.println("Company " + company.getName() + " removed from the market.");
+            System.out.println("-------------------------------------------");
         } else {
             System.out.println("Company " + company.getName() + " is not on the market.");
+            System.out.println("-----------------------------------------");
         }
     }
 

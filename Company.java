@@ -8,9 +8,7 @@ public class Company {
     private final double stabilityCoefficient;
     private final List<Double> sharePriceHistory; // share price history
     private String currentTrend;
-    private String previousTrend;
     private int sharesOwned; // own shares
-    private final boolean everOwned;
 
     // constructor
     public Company(String name, double initialSharePrice, double stabilityCoefficient) {
@@ -19,9 +17,7 @@ public class Company {
         this.sharePriceHistory = new ArrayList<>();
         this.sharePriceHistory.add(initialSharePrice);
         this.currentTrend = "uncertain";
-        this.previousTrend = "uncertain";
         this.sharesOwned = 0;
-        this.everOwned = false;
     }
 
     // get company name
@@ -54,16 +50,6 @@ public class Company {
         return currentTrend;
     }
 
-    // get 'previousTrend'
-    public String getPreviousTrend() {
-        return previousTrend;
-    }
-
-    // get 'everOwned'
-    public boolean getEverOwned() {
-        return everOwned;
-    }
-
     // update share price
     public void updateSharePrice() {
         double lastSharePrice = getCurrentSharePrice();
@@ -75,7 +61,7 @@ public class Company {
     }
 
     // don't use void because I need a return to end the function
-    public String updateTrend(int movementNumber, List<Double> priceHistory, int significance) {
+    public void updateTrend(int movementNumber, List<Double> priceHistory, int significance) {
         int countSignificantIncreases = 0;
         int countSignificantDecreases = 0;
         int countInsignificant = 0;
@@ -83,7 +69,7 @@ public class Company {
         System.out.println("-------------------------------------------------------------------");
 
         if (priceHistory.size() < movementNumber + 1) {
-            return "uncertain";
+            return;
         }
         double overallMovement = priceHistory.getLast() - priceHistory.get(priceHistory.size() - movementNumber - 1);
         double overallMovementRatio = Math.abs(overallMovement) / Math.abs(priceHistory.get(priceHistory.size() - movementNumber - 1));
@@ -99,7 +85,7 @@ public class Company {
             double movementRatio;
             // prevent division by zero
             if (priceHistory.get(i - 1) == 0) {
-                return "uncertain";
+                return;
             }
             movementRatio = Math.abs(movement) / Math.abs(priceHistory.get(i - 1));
             if (movementRatio >= significance / 100.0) {
@@ -114,19 +100,14 @@ public class Company {
         }
 
         // update the trend
-        previousTrend = currentTrend;
         if (countSignificantIncreases > movementNumber / 2 && overallMovementRatio >= threshold) {
             currentTrend = "increasing";
-            return "increasing";
         } else if (countSignificantDecreases > movementNumber / 2 && overallMovementRatio >= threshold) {
             currentTrend = "decreasing";
-            return "decreasing";
         } else if (countInsignificant > movementNumber / 2 && overallMovementRatio <= threshold) {
             currentTrend = "stable";
-            return "stable";
         } else {
             currentTrend = "uncertain";
-            return "uncertain";
         }
     }
 
