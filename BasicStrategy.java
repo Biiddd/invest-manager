@@ -11,6 +11,14 @@ public class BasicStrategy implements Strategy {
         this.significance = significance;
     }
 
+    public int getMovementNumber() {
+        return movementNumber;
+    }
+
+    public int getSignificance() {
+        return significance;
+    }
+
     @Override
     public double invest(Company company) {
 

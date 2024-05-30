@@ -31,31 +31,28 @@ public class Controller {
         // initialize wallet
         investor.updateWallet(10000);
 
+        // create a strategy
+        BasicStrategy strategy = new BasicStrategy(1500, 3, 8);
+
         // manually add interest in the company
-        investor.addInterest(company_x, new BasicStrategy(1500, 3, 8));
+        investor.addInterest(company_x, strategy);
 
         // get companies of interest
         System.out.println("I interest in " + investor.getCompaniesOfInterest() + " now");
 
-        // simulate company trend 200 rounds
-        simulateCompanyTrend(company_x, investor, 200, 8);
-    }
-
-    // simulate logic
-    public static void simulateCompanyTrend(Company company, Investor investor, int updates, int significance) {
-
-        System.out.println("Initial Share Price: " + company.getCurrentSharePrice());
+        System.out.println("Initial Share Price: " + company_x.getCurrentSharePrice());
 
         // update 200 rounds
+        int updates = 200;
         for (int i = 0; i < updates; i++) {
-            company.updateSharePrice();
-            company.updateTrend(5, company.getSharePriceHistory(), 8);
-            System.out.println("Share Price after update " + (i + 1) + ": " + company.getCurrentSharePrice());
+            company_x.updateSharePrice();
+            company_x.updateTrend(strategy.getMovementNumber(), company_x.getSharePriceHistory(), strategy.getSignificance());
+            System.out.println("Share Price after update " + (i + 1) + ": " + company_x.getCurrentSharePrice());
 
             // update investment, buy or sell
             investor.updateInvestment();
-            if (company.getSharesOwned() == 0 && company.getEverOwned()) {
-                investor.removeInterest(company);
+            if (company_x.getSharesOwned() == 0 && company_x.getEverOwned()) {
+                investor.removeInterest(company_x);
             }
 
             System.out.println("Current Wallet: " + investor.getWallet());
@@ -63,8 +60,9 @@ public class Controller {
 
         // get initial and final share price
         System.out.println("-------------------------------------------------------------------");
-        System.out.println("Initial Share Price: " + company.getInitialSharePrice());
-        System.out.println("Final Share Price: " + company.getCurrentSharePrice());
+        System.out.println("Initial Share Price: " + company_x.getInitialSharePrice());
+        System.out.println("Final Share Price: " + company_x.getCurrentSharePrice());
         System.out.println("-------------------------------------------------------------------");
+
     }
 }
