@@ -29,9 +29,14 @@ public class Company {
         return name;
     }
 
-    // get 'initialSharePrice'
+    // get initial share price
     public double getInitialSharePrice() {
         return sharePriceHistory.getFirst();
+    }
+
+    // get first share price
+    public double getFirstSharePrice() {
+        return sharePriceHistory.getLast();
     }
 
     // get 'currentSharePrice'
@@ -70,7 +75,7 @@ public class Company {
     }
 
     // don't use void because I need a return to end the function
-    public String getTrend(int movementNumber, List<Double> priceHistory, int significance) {
+    public String updateTrend(int movementNumber, List<Double> priceHistory, int significance) {
         int countSignificantIncreases = 0;
         int countSignificantDecreases = 0;
         int countInsignificant = 0;

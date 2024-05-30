@@ -1,8 +1,29 @@
 public class Controller {
 
     public static void main(String[] args) {
-        // create a company
-        Company company = new Company("Company X", 100, 0.73);
+        // create companies
+        Company company_x = new Company("Company X", 100, 0.73);
+        Company company_a = new Company("Company A", 200, 0.85);
+        Company company_b = new Company("Company B", 150, 0.92);
+        Company company_c = new Company("Company C", 300, 0.65);
+
+        // add company to the market
+        Market.add(company_x);
+        Market.add(company_a);
+        Market.add(company_b);
+        Market.add(company_c);
+
+        // add a duplicate company
+        Market.add(company_c);
+
+        //remove a company from the market
+        Market.remove(company_c);
+
+        // remove a company that is not in the market
+        Market.remove(company_c);
+
+        // get all companies in the market
+        System.out.println(Market.getCompanies());
 
         // create an investor
         Investor investor = new Investor();
@@ -11,10 +32,13 @@ public class Controller {
         investor.updateWallet(10000);
 
         // manually add interest in the company
-        investor.addInterest(company, new BasicStrategy(1500, 3, 8));
+        investor.addInterest(company_x, new BasicStrategy(1500, 3, 8));
+
+        // get companies of interest
+        System.out.println("I interest in " + investor.getCompaniesOfInterest() + " now");
 
         // simulate company trend 200 rounds
-        simulateCompanyTrend(company, investor, 200, 5);
+        simulateCompanyTrend(company_x, investor, 200, 8);
     }
 
     // simulate logic
@@ -25,7 +49,7 @@ public class Controller {
         // update 200 rounds
         for (int i = 0; i < updates; i++) {
             company.updateSharePrice();
-            company.getTrend(5, company.getSharePriceHistory(), 8);
+            company.updateTrend(5, company.getSharePriceHistory(), 8);
             System.out.println("Share Price after update " + (i + 1) + ": " + company.getCurrentSharePrice());
 
             // update investment, buy or sell
@@ -36,5 +60,11 @@ public class Controller {
 
             System.out.println("Current Wallet: " + investor.getWallet());
         }
+
+        // get initial and final share price
+        System.out.println("-------------------------------------------------------------------");
+        System.out.println("Initial Share Price: " + company.getInitialSharePrice());
+        System.out.println("Final Share Price: " + company.getCurrentSharePrice());
+        System.out.println("-------------------------------------------------------------------");
     }
 }
