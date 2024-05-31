@@ -1,3 +1,3 @@
 public interface Strategy {
-    double invest(Company company);
+    void invest(Company company);
 }

@@ -2,14 +2,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Investor {
-    // every investor has a wallet and a map of companies they are interested in
+    // every investor has a map of companies they are interested in
     private final Map<Company, Strategy> interestMap;
-    private double wallet;
 
-    // by default, the wallet and interest map are empty
+    // by default, the interest map is empty
     public Investor() {
         this.interestMap = new HashMap<>();
-        this.wallet = 0;
     }
 
     // add company to interest map
@@ -27,23 +25,13 @@ public class Investor {
         return interestMap;
     }
 
-    // get wallet balance
-    public double getWallet() {
-        return wallet;
-    }
-
-    // update wallet balance
-    public void updateWallet(double amount) {
-        wallet += amount;
-    }
-
     // update investment
     public void updateInvestment() {
         for (Map.Entry<Company, Strategy> entry : interestMap.entrySet()) {
             Company company = entry.getKey();
             Strategy strategy = entry.getValue();
 
-            updateWallet(strategy.invest(company));
+            strategy.invest(company);
         }
     }
 }

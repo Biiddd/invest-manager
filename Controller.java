@@ -33,10 +33,6 @@ public class Controller {
         // create an investor
         Investor investor = new Investor();
 
-        // initialize wallet
-        double initialWallet = 10000;
-        investor.updateWallet(initialWallet);
-
         // create a strategy
         BasicStrategy strategy = new BasicStrategy(1500, 3, 8);
 
@@ -54,6 +50,7 @@ public class Controller {
         System.out.println("--------------------------------------------------------------");
 
         System.out.println("Initial Share Price: " + company_x.getCurrentSharePrice() + "$");
+        System.out.println("The MaxTransaction is " + strategy.getMaxTransaction() + ", the cost or earnings will not beyond " + strategy.getMaxTransaction() + "$");
 
         // update 50 rounds
         int updates = 50;
@@ -65,16 +62,12 @@ public class Controller {
 
             // update investment, buy or sell
             investor.updateInvestment();
-
-            System.out.println("Current Wallet: " + investor.getWallet() + "$");
         }
 
         // get initial and final share price
         System.out.println("-------------------End of the simulation----------------------");
         System.out.println("Initial Share Price: " + company_x.getInitialSharePrice() + "$");
         System.out.println("Final Share Price: " + company_x.getCurrentSharePrice() + "$");
-        System.out.println("Final Wallet: " + investor.getWallet() + "$");
-        System.out.println("Final Profit: " + (investor.getWallet() - initialWallet) + "$");
         System.out.println("Final Shares Owned: " + company_x.getSharesOwned());
         System.out.println("--------------------------------------------------------------");
 

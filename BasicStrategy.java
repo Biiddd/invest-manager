@@ -22,7 +22,7 @@ public class BasicStrategy implements Strategy {
     }
 
     @Override
-    public double invest(Company company) {
+    public void invest(Company company) {
 
         String currentTrend = company.getCurrentTrend();
 
@@ -38,19 +38,18 @@ public class BasicStrategy implements Strategy {
             case "increasing" -> {
                 // buy shares
                 System.out.println("--------Ready to buy--------");
-                return buyShares(company);
+                buyShares(company);
             }
             case "decreasing" -> {
                 // sell shares
                 System.out.println("--------Ready to sell--------");
-                return sellShares(company);
+                sellShares(company);
             }
         }
-        return 0;
     }
 
     // buy logic
-    protected double buyShares(Company company) {
+    protected void buyShares(Company company) {
         double currentPrice = company.getCurrentSharePrice();
         int sharesToBuy = (int) (getMaxTransaction() / currentPrice);
         double cost = sharesToBuy * currentPrice;
@@ -59,14 +58,12 @@ public class BasicStrategy implements Strategy {
         System.out.println("Buying " + "shares: " + sharesToBuy + ", Cost: " + cost + "$");
         System.out.println("After buying shares owned: " + company.getSharesOwned());
         System.out.println("----------------------------");
-        return cost;
     }
 
     // sell logic
-    protected double sellShares(Company company) {
+    protected void sellShares(Company company) {
         if (company.getSharesOwned() == 0) {
             System.out.println("No shares to sell");
-            return 0;
         }
         double currentPrice = company.getCurrentSharePrice();
         int sharesToSell = (int) (getMaxTransaction() / currentPrice);
@@ -79,6 +76,5 @@ public class BasicStrategy implements Strategy {
         System.out.println("Selling " + "shares: " + sharesToSell + ", Earnings: " + earnings + "$");
         System.out.println("After selling shares owned: " + company.getSharesOwned());
         System.out.println("-----------------------------");
-        return earnings;
     }
 }

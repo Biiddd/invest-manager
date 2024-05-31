@@ -30,11 +30,6 @@ public class Company {
         return sharePriceHistory.getFirst();
     }
 
-    // get first share price
-    public double getFirstSharePrice() {
-        return sharePriceHistory.getLast();
-    }
-
     // get 'currentSharePrice'
     public double getCurrentSharePrice() {
         return sharePriceHistory.getLast();
