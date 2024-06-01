@@ -37,8 +37,8 @@ public class Controller {
         BasicStrategy strategy = new BasicStrategy(1500, 3, 8);
 
         // manually add interest in the company
-        investor.addInterest(company_x, strategy);
-        investor.addInterest(company_a, strategy);
+        investor.addInterest(company_x);
+        investor.addInterest(company_a);
         System.out.println("I interest in " + investor.getCompaniesOfInterest() + " now");
         System.out.println("--------------------------------------------------------------");
 
@@ -61,7 +61,7 @@ public class Controller {
             System.out.println("Current Share Price: " + company_x.getCurrentSharePrice() + "$");
 
             // update investment, buy or sell
-            investor.updateInvestment();
+            investor.updateInvestment(company_x, strategy);
         }
 
         // get initial and final share price

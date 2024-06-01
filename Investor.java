@@ -1,18 +1,18 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Investor {
     // every investor has a map of companies they are interested in
-    private final Map<Company, Strategy> interestMap;
+    private final List<Company> interestMap;
 
     // by default, the interest map is empty
     public Investor() {
-        this.interestMap = new HashMap<>();
+        this.interestMap = new ArrayList<>();
     }
 
     // add company to interest map
-    public void addInterest(Company company, Strategy strategy) {
-        interestMap.put(company, strategy);
+    public void addInterest(Company company) {
+        interestMap.add(company);
     }
 
     // remove company from interest map
@@ -21,17 +21,12 @@ public class Investor {
     }
 
     // get companies of interest
-    public Map<Company, Strategy> getCompaniesOfInterest() {
+    public List<Company> getCompaniesOfInterest() {
         return interestMap;
     }
 
     // update investment
-    public void updateInvestment() {
-        for (Map.Entry<Company, Strategy> entry : interestMap.entrySet()) {
-            Company company = entry.getKey();
-            Strategy strategy = entry.getValue();
-
-            strategy.invest(company);
-        }
+    public void updateInvestment(Company company, Strategy strategy) {
+        strategy.invest(company);
     }
 }
